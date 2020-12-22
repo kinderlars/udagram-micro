@@ -19,7 +19,6 @@ npm-debug.log*
 .tmp/
 .versions/
 coverage/
-udagram-user-api/www/
 node_modules/
 tmp/
 temp/
