@@ -17,7 +17,6 @@ jobs:
       script:
         - cd $TRAVIS_BUILD_DIR/udagram-user-api
         - echo pwd
-        - echo "TEST"
         - docker --version # print the version for logging
         - docker build -t "$DOCKER_USER"/udagram-user-service:latest .
       after_success:
