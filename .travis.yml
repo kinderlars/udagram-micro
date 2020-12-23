@@ -9,15 +9,20 @@ script:
   - docker --version # print the version for logging
   - cd $TRAVIS_BUILD_DIR/udagram-user-api
   - docker build -t "$DOCKER_USER"/udagram-user-service:latest .
-  - cd $TRAVIS_BUILD_DIR/udagram-feed-api
-  - docker build -t "$DOCKER_USER"/udagram-feed-service:latest .
-  - cd $TRAVIS_BUILD_DIR/udagram-frontend
-  - docker build -t "$DOCKER_USER"/udagram-frontend:latest .
-after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
   - docker push "$DOCKER_USER"/udagram-user-service:lastest
+  - cd $TRAVIS_BUILD_DIR/udagram-feed-api
+  - docker build -t "$DOCKER_USER"/udagram-feed-service:latest .
   - docker push "$DOCKER_USER"/udagram-feed-service:lastest
+  - cd $TRAVIS_BUILD_DIR/udagram-frontend
+  - docker build -t "$DOCKER_USER"/udagram-frontend:latest .
   - docker push "$DOCKER_USER"/udagram-frontend:lastest
+
+#after_success:
+#  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+#  - docker push "$DOCKER_USER"/udagram-user-service:lastest
+#  - docker push "$DOCKER_USER"/udagram-feed-service:lastest
+#  - docker push "$DOCKER_USER"/udagram-frontend:lastest
 
 #stage:
 #  - user
