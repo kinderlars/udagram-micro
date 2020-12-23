@@ -7,15 +7,40 @@ services:
 
 script:
   - docker --version # print the version for logging
-  - cd $TRAVIS_BUILD_DIR/udagram-feed-api
-  - docker build -t "$DOCKER_USER"/udagram-user-service:0.4 .
-  - cd $TRAVIS_BUILD_DIR/udagram-feed-service
-  - docker build -t "$DOCKER_USER"/udagram-feed-service:0.5 .
-  - cd $TRAVIS_BUILD_DIR/udagram-frontend
-  - docker build -t "$DOCKER_USER"/udagram-frontend:0.3 .
 
-after_success:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
-  - docker push "$DOCKER_USER"/udagram-user-service:0.4
-  - docker push "$DOCKER_USER"/udagram-feed-service:0.5
-  - docker push "$DOCKER_USER"/udagram-frontend:0.3
+stage:
+  - user
+  - feed
+  - frontend
+
+jobs:
+  include:
+    - stage: user
+      name: "user backend service"
+      script:
+        - echo "Starting user backend build"
+        - docker --version # print the version for logging
+        - docker build -t "$DOCKER_USER"/udagram-user-service:latest ./udagram-user-service
+      after_success:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+        - docker push "$DOCKER_USER"/udagram-user-service:lastest
+
+    - stage: feed
+        name: "feed backend service"
+        script:
+          - echo "Starting feed backend build"
+          - docker --version # print the version for logging
+          - docker build -t "$DOCKER_USER"/udagram-feed-service:latest ./udagram-feed-api
+        after_success:
+          - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+          - docker push "$DOCKER_USER"/udagram-feed-service:lastest
+
+    - stage: frontend
+        name: "frontend service"
+        script:
+          - echo "Starting frontend build"
+          - docker --version # print the version for logging
+          - docker build -t "$DOCKER_USER"/udagram-frontend:latest ./udagram-frontend
+        after_success:
+          - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+          - docker push "$DOCKER_USER"/udagram-frontend:lastest
