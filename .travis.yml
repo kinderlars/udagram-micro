@@ -7,7 +7,8 @@ services:
 
 script:
   - docker --version # print the version for logging
-  - docker build -t "$DOCKER_USER"/udagram-user-service:latest ./udagram-user-service/.
+  - cd $TRAVIS_BUILD_DIR/udagram-user-service
+  - docker build -t "$DOCKER_USER"/udagram-user-service:latest .
   - cd $TRAVIS_BUILD_DIR/udagram-frontend
   - docker build -t "$DOCKER_USER"/udagram-feed-service:latest .
   - cd $TRAVIS_BUILD_DIR/udagram-frontend
