@@ -5,44 +5,53 @@ node_js:
 services:
   - docker
 
-stage:
-  - user
-  - feed
-  - frontend
+script:
+  - docker --version # print the version for logging
+  - cd $TRAVIS_BUILD_DIR/udagram-user-api
+  - docker build -t "$DOCKER_USER"/udagram-user-service:latest .
+  - cd $TRAVIS_BUILD_DIR/udagram-feed-api
+  - docker build -t "$DOCKER_USER"/udagram-feed-service:latest .
+  - cd $TRAVIS_BUILD_DIR/udagram-frontend
+  - docker build -t "$DOCKER_USER"/udagram-frontend:latest .
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+  - docker push "$DOCKER_USER"/udagram-user-service:latest
+  - docker push "$DOCKER_USER"/udagram-feed-service:latest
+  - docker push "$DOCKER_USER"/udagram-frontend:latest
 
-jobs:
-  include:
-    - stage: user
-      name: "user backend service"
-      script:
-        - cd $TRAVIS_BUILD_DIR/udagram-user-api
-        - echo pwd
-        - docker --version # print the version for logging
-        - docker build -t "$DOCKER_USER"/udagram-user-service:latest .
-      after_success:
-        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
-        - docker push "$DOCKER_USER"/udagram-user-service:lastest
-        -
-    - stage: feed
-        name: "feed backend service"
-        script:
-          - cd $TRAVIS_BUILD_DIR/udagram-feed-api
-          - echo pwd
-          - docker --version # print the version for logging
-          - docker build -t "$DOCKER_USER"/udagram-feed-service:latest .
-        after_success:
-          - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
-          - docker push "$DOCKER_USER"/udagram-feed-service:lastest
-
-    - stage: frontend
-        name: "frontend service"
-        script:
-          - cd $TRAVIS_BUILD_DIR/udagram-frontend
-          - echo pwd
-          - docker --version # print the version for logging
-          - docker build -t "$DOCKER_USER"/udagram-frontend:latest .
-        after_success:
-          - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
-          - docker push "$DOCKER_USER"/udagram-frontend:lastest
-
-
+#stage:
+#  - user
+#  - feed
+#  - frontend
+#
+#jobs:
+#  include:
+#    - stage: user
+#      name: "user backend service"
+#      script:
+#        - echo "Starting user backend build"
+#        - docker --version # print the version for logging
+#        - docker build -t "$DOCKER_USER"/udagram-user-service:latest ./udagram-user-service
+#      after_success:
+#        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+#        - docker push "$DOCKER_USER"/udagram-user-service:lastest
+#
+#    - stage: feed
+#        name: "feed backend service"
+#        script:
+#          - echo "Starting feed backend build"
+#          - docker --version # print the version for logging
+#          - docker build -t "$DOCKER_USER"/udagram-feed-service:latest ./udagram-feed-api
+#        after_success:
+#          - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+#          - docker push "$DOCKER_USER"/udagram-feed-service:lastest
+#
+#    - stage: frontend
+#        name: "frontend service"
+#        script:
+#          - echo "Starting frontend build"
+#          - docker --version # print the version for logging
+#          - docker build -t "$DOCKER_USER"/udagram-frontend:latest ./udagram-frontend
+#        after_success:
+#          - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+#          - docker push "$DOCKER_USER"/udagram-frontend:lastest
