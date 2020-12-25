@@ -19,7 +19,7 @@ spec:
           image: megustacc/udagram-user-service:latest
           resources:
             limits:
-              memory: "64Mi"
+              memory: "500Mi"
               cpu: "250m"
           env:
             - name: JWT_SECRET

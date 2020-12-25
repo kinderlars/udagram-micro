@@ -19,10 +19,10 @@ spec:
           image: megustacc/udagram-feed-service:latest
           resources:
             requests:
-              memory: "550Mi"
+              memory: "750Mi"
               cpu: "250m"
             limits:
-              memory: "550Mi"
+              memory: "1024Mi"
               cpu: "500m"
           volumeMounts:
             - name: aws-secrets
