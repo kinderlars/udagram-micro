@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: udagram-user-service
+  labels:
+    app: udagram-user-service
+spec:
+  selector:
+    matchLabels:
+      app: udagram-user-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: udagram-user-service
+    spec:
+      containers:
+        - name: udagram-user-service
+          image: megustacc/udagram-user-service:latest
+          resources:
+            limits:
+              memory: "64Mi"
+              cpu: "250m"
+          env:
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: env-secrets
+                  key: JWT_SECRET
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: udagram-configmap
+                  key: POSTGRES_DB
+            - name: POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: udagram-configmap
+                  key: POSTGRES_HOST
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: env-secrets
+                  key: POSTGRES_USERNAME
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: env-secrets
+                  key: POSTGRES_PASSWORD
+#      volumes:
+#        - name: udagram-config
+#          configMap:
+#            name: udagram-configmap
+#        - name: env-secrets
+#          secret:
+#            secretName: env-secrets
+
+
+
+
