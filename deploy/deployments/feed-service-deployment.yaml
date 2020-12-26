@@ -64,6 +64,11 @@ spec:
                 configMapKeyRef:
                   name: udagram-configmap
                   key: AWS_BUCKET
+            - name: AWS_REGION
+              valueFrom:
+                configMapKeyRef:
+                  name: udagram-configmap
+                  key: AWS_REGION
             - name: AWS_PROFILE
               valueFrom:
                 configMapKeyRef:
