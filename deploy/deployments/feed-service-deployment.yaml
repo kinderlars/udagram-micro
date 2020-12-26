@@ -34,6 +34,11 @@ spec:
                 secretKeyRef:
                   name: env-secrets
                   key: JWT_SECRET
+            - name: URL
+              valueFrom:
+                configMapKeyRef:
+                  name: udagram-configmap
+                  key: URL
             - name: POSTGRES_DB
               valueFrom:
                 configMapKeyRef:
