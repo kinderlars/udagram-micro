@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: udagram-feed-service
   labels:
-    run: udagram-feed-service
+    app: udagram-feed-service
 spec:
   ports:
     - port: 8080
       protocol: TCP
       targetPort: 8080
   selector:
-    run: udagram-feed-service
+    app: udagram-feed-service
