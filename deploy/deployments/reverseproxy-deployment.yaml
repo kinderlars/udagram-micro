@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: reverseproxy
-          image: megustacc/reverse-proxy:latest
+          image: megustacc/reverse-proxy:0.2
           ports:
             - containerPort: 8080
           resources:
