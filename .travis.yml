@@ -19,11 +19,7 @@ after_success:
   - docker push "$DOCKER_USER"/udagram-feed-service:latest
   - docker push "$DOCKER_USER"/udagram-frontend:latest
 
-#stage:
-#  - user
-#  - feed
-#  - frontend
-#
+
 #jobs:
 #  include:
 #    - stage: user
@@ -31,27 +27,30 @@ after_success:
 #      script:
 #        - echo "Starting user backend build"
 #        - docker --version # print the version for logging
-#        - docker build -t "$DOCKER_USER"/udagram-user-service:latest ./udagram-user-service
+#        - cd $TRAVIS_BUILD_DIR/udagram-user-api
+#        - docker build -t "$DOCKER_USER"/udagram-user-service:latest .
 #      after_success:
 #        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
-#        - docker push "$DOCKER_USER"/udagram-user-service:lastest
+#        - docker push "$DOCKER_USER"/udagram-user-service:latest
 #
 #    - stage: feed
 #        name: "feed backend service"
 #        script:
 #          - echo "Starting feed backend build"
 #          - docker --version # print the version for logging
-#          - docker build -t "$DOCKER_USER"/udagram-feed-service:latest ./udagram-feed-api
+#          - cd $TRAVIS_BUILD_DIR/udagram-feed-api
+#          - docker build -t "$DOCKER_USER"/udagram-feed-service:latest .
 #        after_success:
 #          - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
-#          - docker push "$DOCKER_USER"/udagram-feed-service:lastest
+#          - docker push "$DOCKER_USER"/udagram-feed-service:latest
 #
 #    - stage: frontend
 #        name: "frontend service"
 #        script:
 #          - echo "Starting frontend build"
 #          - docker --version # print the version for logging
+#          - cd $TRAVIS_BUILD_DIR/udagram-frontend
 #          - docker build -t "$DOCKER_USER"/udagram-frontend:latest ./udagram-frontend
 #        after_success:
 #          - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
-#          - docker push "$DOCKER_USER"/udagram-frontend:lastest
+#          - docker push "$DOCKER_USER"/udagram-frontend:latest

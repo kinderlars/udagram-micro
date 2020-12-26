@@ -33,6 +33,7 @@ set_env.sh
 *dev-env.env
 udagram-api.postman_collection.json
 */www/
+deploy/config/
 
 
 .DS_Store
